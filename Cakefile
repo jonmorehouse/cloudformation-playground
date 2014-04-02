@@ -5,11 +5,29 @@ path = require 'path'
 extend = require 'extend'
 jsonfile = require 'jsonfile'
 rm = require 'remove'
+glob = require 'glob'
+sys = require 'sys'
+exec = require('child_process').exec
 
 # global variables
 p = console.log
 templateDir = path.resolve __dirname, "templates"
 cfTemplateDir = path.resolve __dirname, "output"
+
+# print to the console from the child process
+puts = (err, stdout, stderr)->
+  sys.puts(stdout)
+  sys.puts(stderr)
+
+###
+#   UTILITY FUNCTIONS
+###
+testCfTemplate = (templatePath, callback)->
+
+  fs.readFile templatePath, "utf-8", (err, data)->
+    return callback(err) if err
+    command = "aws cloudformation validate-template --template-body \"#{data}\""
+    exec command, puts
 
 writeCfTemplate = (templatePath, data, callback)->
 
@@ -30,46 +48,69 @@ writeCfTemplate = (templatePath, data, callback)->
         if stat.isDirectory
           do write
 
-
 # buildTemplate "path.cson", (err, results) ->
-buildTemplate = (filename, callback)->
+buildTemplate = (templatePath, callback)->
 
-  templatePath = path.resolve templateDir, filename 
-  cfTemplatePath = path.resolve cfTemplateDir, filename.replace ".cson", ".template"
-  cson.parseFile templatePath, (err, obj)->
+  # generate output path
+  cfTemplatePath = path.resolve cfTemplateDir, path.basename(templatePath).replace ".ctemplate", ".template"
 
-    return callback(err) if err
-    return callback() if not obj
+  # parse template
+  fs.readFile templatePath, "utf-8", (err, data)->
 
-    # add in ability to require an array of files if necessary
-    if obj.require
-      templatePath = obj.require
-      # check if its a relative path
-      if templatePath[0] != "/"
-        templatePath = path.resolve(templateDir, templatePath)
+    return callback err if err
+    cson.parse data, (err, obj)->
+
+      return callback(err) if err
+      return callback() if not obj
       
-      cson.parseFile templatePath, (err, baseObj)->
-        extend baseObj, obj
-        obj = baseObj
-        delete obj['require']
+      # add in ability to require an array of files if necessary
+      if obj.require
+        templatePath = obj.require
+        # check if its a relative path
+        if templatePath[0] != "/"
+          templatePath = path.resolve(templateDir, templatePath)
+
+        fs.exists templatePath, (exists)->
+
+          return callback Error("Requirement missing") if not exists
+        
+          cson.parseFile templatePath, (err, baseObj)->
+            extend baseObj, obj
+            obj = baseObj
+            delete obj['require']
+            writeCfTemplate cfTemplatePath, obj, callback
+
+      # no requires to be handled
+      else
         writeCfTemplate cfTemplatePath, obj, callback
 
-    # no requires to be handled
-    else
-      writeCfTemplate cfTemplatePath, obj, callback
+###
+#   TASK DECLARATIONS
+###
 
-# task declarations 
 task "build", "Build cloudformation templates", ->
 
-  fs.readdir templateDir, (err, filenames)->
-
+  glob "#{templateDir}/*.ctemplate" , (err, filenames)->
     return callback(err) if err
-
     async.each filenames, buildTemplate, (err)->  
+      return p(err) if err
+      p "Build successful"
 
 task "clean", "Clean directory", ->
 
   rm cfTemplateDir, (err)->
+
+task "test", "Test all templates", ->
+  
+  invoke "build"
+
+  fs.readdir cfTemplateDir, (err, filenames)->
+    
+    return null if err
+    paths = (path.resolve(cfTemplateDir, filename) for filename in filenames)
+    async.eachSeries paths, testCfTemplate, (err)->    
+      return p(err) if err
+
 
 
 

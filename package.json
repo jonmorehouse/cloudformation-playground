@@ -19,6 +19,7 @@
     "cson": "~1.4.5",
     "coffee-script": "~1.7.1",
     "async": "~0.6.2",
-    "jsonfile": "^1.1.1"
+    "jsonfile": "^1.1.1",
+    "glob": "^3.2.9"
   }
 }
