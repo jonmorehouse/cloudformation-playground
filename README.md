@@ -1,16 +1,12 @@
 CloudFormation
 ==============
 
-Structure
----------
-
-* cson - npm library
-
-Manually Managed
-----------------
+ENV Variables
+-------------
 
 * keypair
 * aws_access_key, aws_access_secret
+* default_region
 
 Tasks (S3)
 ----------
