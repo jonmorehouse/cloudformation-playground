@@ -1,6 +1,12 @@
 CloudFormation
 ==============
 
+Structure
+---------
+
+* cson - npm library
+
+
 Manually Managed
 ----------------
 

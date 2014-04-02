@@ -1,0 +1,40 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Main bucket configurations",
+
+  "Parameters": {
+    "Region": {
+      "Default": "us-east-1",
+      "Type": "String",
+      "Description" : " 'us-east-1' | 'us-west-1' | 'eu-west-1' | 'ap-southeast-1' "
+    },
+    "ENV": {
+      "Default": "production",
+      "Type": "String",
+      "Description": "'staging' | 'production' "
+    }
+  },
+
+  "Mappings": {
+
+
+  },
+
+  "Resources": {
+    "LogsBucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy" : "Retain",
+      "Properties": {
+        "BucketName": "jump-test-test",
+        "AccessControl" : "PublicRead"
+      }
+    }
+  },
+
+  "Outputs": {
+    "TestVal": {
+      "Description": "TEST",
+      "Value": { "Ref" : "ENV" }
+    }
+  }
+}
