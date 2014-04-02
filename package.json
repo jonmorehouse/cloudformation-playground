@@ -1,0 +1,22 @@
+{
+  "name": "cloudformation",
+  "version": "0.0.0",
+  "description": "Cloudformation templates",
+  "scripts": {
+    "build": "./node_modules/coffee-script/bin/cake"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jump-labs/cloudformation.git"
+  },
+  "author": "Jon Morehouse",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jump-labs/cloudformation/issues"
+  },
+  "homepage": "https://github.com/jump-labs/cloudformation",
+  "dependencies": {
+    "cson": "~1.4.5",
+    "coffee-script": "~1.7.1"
+  }
+}
