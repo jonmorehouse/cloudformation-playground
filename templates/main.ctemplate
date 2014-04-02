@@ -1,6 +1,12 @@
 {
-  AWSTemplateFormatVersion: "2010-09-09"
+  require: "shared.cson"
   Description: "S3 Bucket configurations"
+
+  Parameters:
+    LogBucket:
+      Default: "production"
+      Type: "String"
+      Description: "Log bucket"
 
   Resources:
     LogsBucket:
@@ -10,10 +16,8 @@
         AccessControl: "PublicRead"
 
   Outputs:
-
     TestVal:
       Description: "TEST"
       Value: "Jon" 
-
 
 }

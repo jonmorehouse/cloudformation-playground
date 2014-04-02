@@ -25,7 +25,7 @@
       "Type": "AWS::S3::Bucket",
       "DeletionPolicy" : "Retain",
       "Properties": {
-        "BucketName": "test-test",
+        "BucketName": "jump-test-test",
         "AccessControl" : "PublicRead"
       }
     }

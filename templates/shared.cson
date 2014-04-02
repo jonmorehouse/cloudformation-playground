@@ -1,6 +1,9 @@
 {
-
-  firstName: "Jon"
-  lastName: "Morehouse"
+  AWSTemplateFormatVersion: "2010-09-09"
+  Parameters:
+    Region:
+      Default: "us-west-1"
+      Type: "String"
+      Description: "'us-east-1' | 'us-west-1' | 'eu-west-1' | 'ap-southeast-1'"
 
 }
