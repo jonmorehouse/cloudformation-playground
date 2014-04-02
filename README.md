@@ -6,7 +6,6 @@ Structure
 
 * cson - npm library
 
-
 Manually Managed
 ----------------
 
@@ -27,6 +26,12 @@ Tasks (S3)
   * gifs
   * videos
 * link route53 to cloudfront distribution points
+
+Tasks (Public DNS)
+------------------
+
+* create a bastion server (we will tunnel through this)
+* create a public ec2 + link with the elastic ip needed
 
 Tasks (Cluster)
 ---------------
