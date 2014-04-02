@@ -24,9 +24,7 @@ puts = (err, stdout, stderr)->
 ###
 testCfTemplate = (templatePath, callback)->
 
-  fs.readFile templatePath, "utf-8", (err, data)->
-    return callback(err) if err
-    command = "aws cloudformation validate-template --template-body \"#{data}\""
+    command = "aws cloudformation validate-template --template-body \"`cat #{templatePath}`\""
     exec command, puts
 
 writeCfTemplate = (templatePath, data, callback)->

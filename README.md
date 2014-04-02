@@ -1,49 +1,25 @@
-CloudFormation
-==============
+CloudFormation Playground
+=========================
 
-ENV Variables
--------------
+A work environment for building out cloudformation files / testing them at speed.
 
-* keypair
-* aws_access_key, aws_access_secret
-* default_region
+This project uses CSON and allows for requiring CSON files so you can have base templates for CloudFormation projects.
 
-Tasks (S3)
-----------
-
-* create buckets
-  * images
-  * video
-  * clips
-  * gifs
-  * logs
-* link cloudfront to buckets (only the encoding bucket)
-  * images
-  * gifs
-  * videos
-* link route53 to cloudfront distribution points
-
-Tasks (Public DNS)
-------------------
-
-* create a bastion server (we will tunnel through this)
-* create a public ec2 + link with the elastic ip needed
-
-Tasks (Cluster)
+Getting Started
 ---------------
 
-* create vpc
-  * create private subnet
-  * create public subnet
-* security groups (vpc wide)
-  * port 80 on public servers 
-  * development security group which can have on / off elements as needed
+* make sure you have the AWS cli tools installed
+  `pip install awscli`
+* make sure you have node.js installed
+  `brew install node`
+* bootstrap environment
+  `cd cloudformation-playground && npm install`
+* build files
+  `cake build`
+* test files
+  `cake test`
 
-Thoughts
---------
+Note, you may get some weird errors if you haven't used the aws cloudformation cli before. Make sure you have set the correct ENV variables [AWS_DEFAULT_REGION, AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY ...]
 
-* parameters for staging / non-staging
-* parameters for prefix
-* parameters for url
 
 
