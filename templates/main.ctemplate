@@ -1,34 +1,47 @@
 {
   require: "shared.cson"
-  Description: "S3 Bucket configurations"
-  Mappings:
-    extend: true
-    LogBucket:
-      production: "production-log-bucket"
-      staging: ""
-    #ImageBucket:
-      #production:
-      #staging:
-    #GifBucket:
-      #production:
-      #staging:
-    #ClipBucket:
-      #production:
-      #staging:
-    #CachedClipsBucket:
-      #production:
-      #staging:
-
+  Description: "S3 Bucket configurations, cdn's and distributions"
   Resources:
-    LogsBucket:
+    LogBucket:
       Type: "AWS::S3::Bucket"
       DeletionPolicy: "Retain"
       Properties:
+        BucketName: {"Fn::Join": ["-", [{ "Fn::FindInMap": ["General", {Ref: "Env"}, "BucketPrefix" ]}, "logs"]]}
+        AccessControl: "Private"
+
+    ImageBucket:
+      Type: "AWS::S3::Bucket"
+      DeletionPolicy: "Retain"
+      Properties:
+        BucketName: {"Fn::Join": ["-", [{ "Fn::FindInMap": ["General", {Ref: "Env"}, "BucketPrefix" ]}, "images"]]}
         AccessControl: "PublicRead"
 
+    ClipBucket:
+      Type: "AWS::S3::Bucket"
+      DeletionPolicy: "Retain"
+      Properties:
+        BucketName: {"Fn::Join": ["-", [{ "Fn::FindInMap": ["General", {Ref: "Env"}, "BucketPrefix" ]}, "clips"]]}
+        AccessControl: "PublicRead"
+
+    ImageBucket:
+      Type: "AWS::S3::Bucket"
+      DeletionPolicy: "Retain"
+      Properties:
+        BucketName: {"Fn::Join": ["-", [{ "Fn::FindInMap": ["General", {Ref: "Env"}, "BucketPrefix" ]}, "cache"]]}
+        AccessControl: "PublicRead"
+
+    PlaylistBucket:
+      Type: "AWS::S3::Bucket"
+      DeletionPolicy: "Retain"
+      Properties:
+        BucketName: {"Fn::Join": ["-", [{ "Fn::FindInMap": ["General", {Ref: "Env"}, "BucketPrefix" ]}, "playlists"]]}
+        AccessControl: "PublicRead"
+    
+  # outputs
   Outputs:
-    TestVal:
-      Description: "TEST"
-      Value: "Jon" 
+    LogBucketName: 
+      Value: 
+        Ref: "LogBucket"
+      Description: "Log bucket Name"
 
 }

@@ -1,5 +1,7 @@
 {
   AWSTemplateFormatVersion: "2010-09-09"
+
+  # parameters to be passed in
   Parameters:
     Region:
       Default: "us-west-1"
@@ -9,9 +11,19 @@
       Default: "production"
       Type: "String"
       Description: "'production' | 'staging'"
+    KeyPair:
+      Default: "devops"
+      Type: "String"
+      Description: "SSH Keypair"
+
+  # high level mappings as needed
   Mappings:
-    Namespace:
-      production: "wave"
-      staging: "wave-staging"
+    General:
+      production: 
+        Namespace: "wave"
+        BucketPrefix: "wave-test-bucket"
+      staging: 
+        Namespace: "wave-staging"
+        BucketPrefix: "wave-staging"
 
 }
