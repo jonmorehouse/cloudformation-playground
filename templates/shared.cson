@@ -5,5 +5,13 @@
       Default: "us-west-1"
       Type: "String"
       Description: "'us-east-1' | 'us-west-1' | 'eu-west-1' | 'ap-southeast-1'"
+    Env:
+      Default: "production"
+      Type: "String"
+      Description: "'production' | 'staging'"
+  Mappings:
+    Namespace:
+      production: "wave"
+      staging: "wave-staging"
 
 }

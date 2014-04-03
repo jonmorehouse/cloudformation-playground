@@ -1,12 +1,23 @@
 {
   require: "shared.cson"
   Description: "S3 Bucket configurations"
-
-  Parameters:
+  Mappings:
+    extend: true
     LogBucket:
-      Default: "production"
-      Type: "String"
-      Description: "Log bucket"
+      production: "production-log-bucket"
+      staging: ""
+    #ImageBucket:
+      #production:
+      #staging:
+    #GifBucket:
+      #production:
+      #staging:
+    #ClipBucket:
+      #production:
+      #staging:
+    #CachedClipsBucket:
+      #production:
+      #staging:
 
   Resources:
     LogsBucket:

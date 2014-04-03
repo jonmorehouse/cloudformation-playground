@@ -46,6 +46,22 @@ writeCfTemplate = (templatePath, data, callback)->
         if stat.isDirectory
           do write
 
+extendObject = (baseObj, obj)->
+
+  newObj = {}
+  extend true, newObj, baseObj, obj
+  for key of newObj
+    if obj[key] and obj[key]["extend"] and baseObj[key]
+      newKey = {}
+      extend true, newObj[key], obj[key], baseObj[key]
+      delete newObj[key]["extend"]
+
+  # delete the require key
+  if newObj["require"]
+    delete newObj["require"]
+
+  return newObj
+
 # buildTemplate "path.cson", (err, results) ->
 buildTemplate = (templatePath, callback)->
 
@@ -73,9 +89,9 @@ buildTemplate = (templatePath, callback)->
           return callback Error("Requirement missing") if not exists
         
           cson.parseFile templatePath, (err, baseObj)->
-            extend baseObj, obj
-            obj = baseObj
-            delete obj['require']
+
+            obj = extendObject baseObj, obj
+            
             writeCfTemplate cfTemplatePath, obj, callback
 
       # no requires to be handled
