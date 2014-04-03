@@ -19,6 +19,35 @@ Getting Started
 * test files
   `cake test`
 
+Sample Template Files
+---------------------
+
+```
+# shared.cson
+{
+  Description:
+  Mappings: 
+    Namespace:
+      production: "production environment"
+      staging: "staging environment"
+
+}
+
+# main.ctemplate
+{
+  require: "shared.cson" # include the shared.cson as a base
+  Mappings:
+    extend: true # will extend the mappings from above and try to "smart join" them 
+    BucketUrl:
+      production: "production bucket url"
+
+  ...
+  # the rest of this file is vanilla cson
+}
+
+```
+
+
 Note, you may get some weird errors if you haven't used the aws cloudformation cli before. Make sure you have set the correct ENV variables [AWS_DEFAULT_REGION, AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY ...]
 
 
