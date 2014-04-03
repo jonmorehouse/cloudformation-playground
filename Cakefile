@@ -6,27 +6,16 @@ extend = require 'extend'
 jsonfile = require 'jsonfile'
 rm = require 'remove'
 glob = require 'glob'
-sys = require 'sys'
-exec = require('child_process').exec
 
 # global variables
 p = console.log
 templateDir = path.resolve __dirname, "templates"
 cfTemplateDir = path.resolve __dirname, "output"
 
-# print to the console from the child process
-puts = (err, stdout, stderr)->
-  sys.puts(stdout)
-  sys.puts(stderr)
 
 ###
 #   UTILITY FUNCTIONS
 ###
-testCfTemplate = (templatePath, callback)->
-
-    command = "aws cloudformation validate-template --template-body \"`cat #{templatePath}`\""
-    exec command, puts
-
 writeCfTemplate = (templatePath, data, callback)->
 
   # write the cf template as needed
@@ -113,16 +102,5 @@ task "build", "Build cloudformation templates", ->
 task "clean", "Clean directory", ->
 
   rm cfTemplateDir, (err)->
-
-task "test", "Test all templates", ->
-  
-  invoke "build"
-
-  fs.readdir cfTemplateDir, (err, filenames)->
-    
-    return null if err
-    paths = (path.resolve(cfTemplateDir, filename) for filename in filenames)
-    async.eachSeries paths, testCfTemplate, (err)->    
-      return p(err) if err
 
 

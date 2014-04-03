@@ -16,8 +16,14 @@ Getting Started
   `cd cloudformation-playground && npm install`
 * build files
   `cake build`
-* test files
+* validate all template files
   `cake test`
+
+Building Out Templates
+----------------------
+
+* use cake tasks for build / validation
+* use make commands for actually building / deploying the template
 
 Sample Template Files
 ---------------------
